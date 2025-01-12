@@ -23,11 +23,21 @@ if __name__ == "__main__":
         logger.info("Starting divide API at {}:{}", settings.HOST_API_DIVIDE, settings.PORT_API_DIVIDE)
         uvicorn.run("api_divide:app", host=settings.HOST_API_DIVIDE, port=settings.PORT_API_DIVIDE)
 
+    def run_api_4():
+        logger.info("Starting exponentiation API at {}:{}", settings.HOST_API_EXPONENTIATION, settings.PORT_API_EXPONENTIATION)
+        uvicorn.run("api_exponentiation:app", host=settings.HOST_API_EXPONENTIATION, port=settings.PORT_API_EXPONENTIATION)
+
+    def run_api_5():
+        logger.info("Starting standart deviation API at {}:{}", settings.HOST_API_STANDART_DEVIATION, settings.PORT_API_STANDART_DEVIATION)
+        uvicorn.run("api_standart_deviation:app", host=settings.HOST_API_STANDART_DEVIATION, port=settings.PORT_API_STANDART_DEVIATION)
+
+
     processes = []
     processes.append(multiprocessing.Process(target=run_api_1))
     processes.append(multiprocessing.Process(target=run_api_2))
     processes.append(multiprocessing.Process(target=run_api_3))
-
+    processes.append(multiprocessing.Process(target=run_api_4))
+    processes.append(multiprocessing.Process(target=run_api_5))
     logger.info("Starting processes for the APIs")
 
     for process in processes:
