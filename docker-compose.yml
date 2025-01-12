@@ -8,3 +8,23 @@ services:
       - "4317:4317"   # OpenTelemetry gRPC
       - "4318:4318"   # OpenTelemetry HTTP
       - "9411:9411"   # Zipkin
+
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - jaeger
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus

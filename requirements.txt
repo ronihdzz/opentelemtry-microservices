@@ -9,3 +9,4 @@ opentelemetry-instrumentation-requests
 opentelemetry-instrumentation-fastapi
 opentelemetry-exporter-otlp-proto-http
 opentelemetry-exporter-otlp-proto-grpc
+prometheus-fastapi-instrumentator

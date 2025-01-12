@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
 import uvicorn
 from settings import Settings
@@ -9,7 +9,7 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-
+from prometheus_fastapi_instrumentator import Instrumentator as PrometheusInstrumentator
 
 # Telemetry
 # --------------------------------------------------------------
@@ -30,7 +30,6 @@ def initialize_telemetry(collector_endpoint, collector_port, service_name, os_ve
     return tracer
 
 
-
 # Initialize
 # --------------------------------------------------------------
 
@@ -45,8 +44,8 @@ initialize_telemetry(
 RequestsInstrumentor().instrument()
 app = FastAPI()
 settings = Settings()
+PrometheusInstrumentator().instrument(app).expose(app, endpoint="/metrics")
 FastAPIInstrumentor().instrument_app(app)
-
 
 
 # Schema
@@ -66,6 +65,7 @@ class ResponseAdd(BaseModel):
 @app.post("/add", response_model=ResponseAdd)
 def add_numbers(request: RequestAdd):
     return ResponseAdd(result=sum(request.numbers))
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host=settings.HOST_API_ADD, port=settings.PORT_API_ADD)

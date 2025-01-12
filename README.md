@@ -71,3 +71,16 @@ Ya  que hiciste lo anterior, deberias ver los datos en jaeger, para ello, puedes
 ```
 http://localhost:16686/
 ```
+
+
+
+## Prometheus
+
+
+## Grafana
+
+Con tu contenedor de Grafana corriendo en el puerto 3000, puedes abrir 'http://localhost:3000' (o la IP/host que uses) en tu navegador. Las credenciales por defecto suelen ser admin/admin.
+
+Configura el Data Source: Una vez dentro de Grafana, ve a “Configuration” -> “Data sources” -> “Add data source”, elige “Prometheus” y en la URL coloca 'http://prometheus:9090' (o la dirección donde corra Prometheus).
+
+Crea un dashboard: Después puedes crear un nuevo dashboard y añadir gráficos que consulten series de métricas de Prometheus (por ejemplo, http_request_duration_seconds_count, http_request_duration_seconds_sum, etc., o cualquiera de las métricas que prometheus-fastapi-instrumentator genere).

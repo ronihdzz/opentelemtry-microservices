@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 5s  # cada cuánto tiempo se recogen métricas
+
+scrape_configs:
+  # Scrape de Prometheus en sí mismo (opcional)
+  - job_name: prometheus
+    static_configs:
+      - targets: ["prometheus:9090"]
+
+  # Scrape de cada microservicio. Asumiendo que cada uno expone /metrics
+  - job_name: api_add
+    static_configs:
+      - targets: ["host.docker.internal:9002"]
+
+  - job_name: api_divide
+    static_configs:
+      - targets: ["host.docker.internal:9003"]
+
+  - job_name: api_average
+    static_configs:
+      - targets: ["host.docker.internal:9001"]
